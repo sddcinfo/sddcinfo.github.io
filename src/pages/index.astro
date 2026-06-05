@@ -1,0 +1,116 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const title = 'sddc.info open source';
+const description =
+  'Open-source software for the NVIDIA GB10 appliance, infrastructure provisioning, and autonomous tooling. Every project ships a line-cited wiki built from its source.';
+
+const projects = [
+  {
+    name: 'meetingscribe',
+    wiki: 'https://sddcinfo.github.io/meetingscribe/',
+    repo: 'https://github.com/sddcinfo/meetingscribe',
+    desc: 'Real-time multilingual meeting transcription, translation, and synthesized interpretation on a single GB10.',
+  },
+  {
+    name: 'autosre',
+    wiki: 'https://sddcinfo.github.io/autosre/',
+    repo: 'https://github.com/sddcinfo/autosre',
+    desc: 'vLLM lifecycle and SRE automation for the GB10 inference stack.',
+  },
+  {
+    name: 'autoswe',
+    wiki: 'https://sddcinfo.github.io/autoswe/',
+    repo: 'https://github.com/sddcinfo/autoswe',
+    desc: 'An autonomous Python to Go rewrite loop: a local Qwen writer, a Codex judge, gated by a fixed parity matrix.',
+  },
+  {
+    name: 'sddc-cli',
+    wiki: 'https://sddcinfo.github.io/sddc-cli/',
+    repo: 'https://github.com/sddcinfo/sddc-cli',
+    desc: 'Unified infrastructure management CLI: BMC/Redfish, Incus, Linstor, Talos, k3s, GB10, and repo tooling.',
+  },
+  {
+    name: 'provisioning',
+    wiki: 'https://sddcinfo.github.io/provisioning/',
+    repo: 'https://github.com/sddcinfo/provisioning',
+    desc: 'Bare-metal and GB10 provisioning: Ansible, iPXE, and cloud-init.',
+  },
+  {
+    name: 'dapcli',
+    wiki: 'https://sddcinfo.github.io/dapcli/',
+    repo: 'https://github.com/sddcinfo/dapcli',
+    desc: 'Command-line client for the Dell Automation Platform.',
+  },
+  {
+    name: 'pptcraft',
+    wiki: 'https://sddcinfo.github.io/pptcraft/',
+    repo: 'https://github.com/sddcinfo/pptcraft',
+    desc: 'Slide generation and translation toolkit.',
+  },
+  {
+    name: 'website',
+    wiki: 'https://sddcinfo.github.io/website/',
+    repo: 'https://github.com/sddcinfo/website',
+    desc: 'The sddc.info public website.',
+  },
+];
+---
+
+<Layout title={title} description={description}>
+  <section class="text-center">
+    <p
+      class="mb-5 inline-block rounded-full border border-primary-200/70 bg-white/70 px-4 py-1 text-sm font-medium text-primary-700 backdrop-blur dark:border-primary-800/60 dark:bg-gray-800/70 dark:text-primary-300"
+    >
+      Open source
+    </p>
+    <h1 class="text-5xl font-bold tracking-tight md:text-6xl">
+      <span class="text-gradient">sddc.info</span>
+    </h1>
+    <p class="mx-auto mt-6 max-w-2xl text-lg text-gray-600 dark:text-gray-300 md:text-xl">
+      {description}
+    </p>
+    <div class="mt-8">
+      <a href="https://github.com/sddcinfo" class="btn btn-primary">Browse on GitHub</a>
+    </div>
+  </section>
+
+  <section class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      projects.map((p) => (
+        <article class="card flex flex-col">
+          <h2 class="text-xl font-semibold">
+            <a href={p.wiki} class="text-gradient transition-opacity hover:opacity-80">
+              {p.name}
+            </a>
+          </h2>
+          <p class="mt-2 flex-1 leading-relaxed text-gray-600 dark:text-gray-300">{p.desc}</p>
+          <div class="mt-5 flex gap-5 text-sm font-semibold">
+            <a
+              href={p.wiki}
+              class="text-primary-600 transition-colors hover:text-primary-800 dark:text-primary-400 dark:hover:text-primary-300"
+            >
+              Wiki
+            </a>
+            <a
+              href={p.repo}
+              class="text-gray-500 transition-colors hover:text-primary-700 dark:text-gray-400 dark:hover:text-primary-300"
+            >
+              GitHub
+            </a>
+          </div>
+        </article>
+      ))
+    }
+  </section>
+
+  <footer class="mt-16 text-center text-sm text-gray-500 dark:text-gray-400">
+    All projects on
+    <a
+      href="https://github.com/sddcinfo"
+      class="font-medium text-primary-600 hover:text-primary-800 dark:text-primary-400"
+    >
+      github.com/sddcinfo
+    </a>
+  </footer>
+</Layout>

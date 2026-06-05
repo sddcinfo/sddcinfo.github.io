@@ -1,92 +1,225 @@
-/* Tailwind v4, matching the fleet convention (see meeting-scribe). Wired via
-   PostCSS (postcss.config.mjs). The @astrojs/starlight-tailwind theme-harmonizer
-   @plugin is intentionally NOT imported: its CSS import fails to resolve under
-   Astro 6's rolldown-based vite. Starlight ships its own complete theme, so
-   plain Tailwind v4 utilities are layered on top for any custom markup. */
 @import "tailwindcss";
 
-/* Layout: use the full width, focus on the content. Starlight defaults to a
-   45rem content column pushed to the right of the main pane (a big empty gap
-   beside the nav) with a right-hand "On this page" rail as wide as the left nav.
-   We (1) let content fill the pane (large content cap), (2) zero the auto left
-   margin that created the gap, and (3) trim the TOC rail. customCss is unlayered,
-   so it wins over Starlight's @layer rules without !important. */
-:root {
-  --sl-content-width: 95rem;
+@custom-variant dark (&:where(.dark-mode, .dark-mode *));
+
+@theme inline {
+  --font-sans: var(--font-inter), system-ui, sans-serif;
 }
 
-@media (min-width: 72rem) {
-  .right-sidebar-container {
-    width: 16rem;
+@theme {
+  /* Custom primary color palette */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+}
+
+@layer base {
+  html {
+    scrollbar-gutter: stable;
   }
-  [data-has-sidebar][data-has-toc] .main-pane {
-    width: calc(100% - 16rem);
-    /* kill the auto left margin that shoved content far right of the nav */
-    --sl-content-margin-inline: 0;
+
+  /* Turnstile widget needs explicit height - Tailwind resets collapse it */
+  .cf-turnstile {
+    min-height: 65px;
+  }
+  .cf-turnstile iframe {
+    min-height: 65px !important;
+    height: 65px !important;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    line-height: 1.7;
+    color: #2c3e50;
+    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 50%, #dbeafe 100%);
+    margin: 0;
+    position: relative;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+      radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(96, 165, 250, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 40% 20%, rgba(147, 197, 253, 0.06) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body.dark-mode {
+    color: #ecf0f1;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+  }
+
+  body.dark-mode::before {
+    background-image:
+      radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.12) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(96, 165, 250, 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 40% 20%, rgba(147, 197, 253, 0.08) 0%, transparent 50%);
+  }
+
+  .main-container {
+    position: relative;
+    z-index: 1;
   }
 }
 
-/* "On this page" (right TOC): let long heading titles wrap instead of being
-   clipped by the trimmed rail. */
-.right-sidebar a {
-  white-space: normal;
-  overflow-wrap: anywhere;
-  line-height: 1.35;
+@layer components {
+  .hero-gradient {
+    @apply text-center py-16 px-4 bg-gradient-to-br from-primary-50 to-primary-100 dark:from-gray-900 dark:to-gray-800;
+  }
+  
+  .hero-gradient h1 {
+    @apply text-5xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-primary-600 to-primary-800 dark:from-primary-400 dark:to-primary-600 bg-clip-text text-transparent;
+  }
+  
+  .hero-gradient p {
+    @apply text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-8;
+  }
+  
+  .card-container {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12 max-w-6xl mx-auto px-4;
+  }
+  
+  .card {
+    @apply bg-white/90 dark:bg-gray-800/90 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700
+           transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:border-primary-300 dark:hover:border-primary-600
+           backdrop-blur-sm;
+  }
+  
+  .card-icon {
+    @apply text-4xl mb-4 bg-gradient-to-r from-primary-500 to-primary-700 bg-clip-text text-transparent;
+  }
+  
+  .btn {
+    @apply inline-block px-6 py-3 rounded-lg font-semibold transition-all duration-200;
+  }
+  
+  .btn-primary {
+    @apply bg-gradient-to-r from-primary-600 to-primary-700 text-white shadow-lg 
+           hover:from-primary-700 hover:to-primary-800 hover:-translate-y-0.5 hover:shadow-xl;
+  }
+  
+  .main-container {
+    @apply flex min-h-screen;
+  }
+  
+  .sidebar {
+    @apply w-64 fixed top-0 left-0 h-full bg-gray-800 dark:bg-gray-900 text-white 
+           p-6 overflow-y-auto transition-transform duration-300 z-50;
+  }
+  
+  .main-content {
+    @apply ml-64 flex-1 p-6;
+  }
+
+  .content-wrapper {
+    @apply max-w-7xl mx-auto;
+  }
+  
+  .mobile-nav-toggle {
+    @apply fixed top-4 left-4 z-50 md:hidden bg-white dark:bg-gray-800 
+           border border-gray-300 dark:border-gray-600 p-2 rounded-lg;
+  }
+  
+  .theme-toggle {
+    @apply w-full mt-8 p-3 bg-gray-700 dark:bg-gray-800 rounded-lg 
+           hover:bg-primary-600 transition-colors duration-200;
+  }
+  
+  .sidebar-nav h3 {
+    @apply text-xs uppercase tracking-wider text-gray-400 mt-6 mb-2;
+  }
+  
+  .sidebar-nav a {
+    @apply block py-2 px-3 rounded-lg transition-colors duration-200
+           hover:bg-gray-700 dark:hover:bg-gray-700;
+  }
+  
+  .sidebar-nav a.active {
+    @apply bg-primary-600 text-white;
+  }
+  
+  .glass-card {
+    @apply bg-white/95 dark:bg-gray-800/95
+           backdrop-blur-lg rounded-xl border-2 border-gray-200/60 dark:border-gray-700/60
+           shadow-[0_8px_32px_-8px_rgba(0,0,0,0.12),0_2px_8px_-2px_rgba(0,0,0,0.08)] dark:shadow-[0_8px_32px_-8px_rgba(0,0,0,0.5),0_2px_8px_-2px_rgba(0,0,0,0.3)]
+           transition-all duration-300 hover:shadow-[0_16px_48px_-8px_rgba(59,130,246,0.25),0_4px_16px_-4px_rgba(59,130,246,0.15)]
+           hover:border-primary-400/70 dark:hover:border-primary-600/70
+           hover:-translate-y-1 hover:scale-[1.005]
+           relative
+           before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-br before:from-primary-500/5 before:via-transparent before:to-blue-500/5 before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300 before:pointer-events-none;
+  }
+
+  .section-header {
+    @apply sticky top-0 z-10 bg-gradient-to-r from-primary-600 via-primary-700 to-blue-600 dark:from-primary-700 dark:via-primary-800 dark:to-blue-700
+           text-white px-6 py-4 rounded-t-xl font-bold tracking-wide text-lg
+           shadow-[0_8px_24px_-6px_rgba(59,130,246,0.5),0_2px_8px_rgba(0,0,0,0.1)]
+           relative overflow-hidden
+           before:absolute before:inset-0 before:bg-gradient-to-r before:from-white/0 before:via-white/20 before:to-white/0 before:translate-x-[-200%] hover:before:translate-x-[200%] before:transition-transform before:duration-1000 before:pointer-events-none;
+  }
+
+  .stat-card {
+    @apply bg-gradient-to-br from-primary-50 via-white to-blue-50 dark:from-gray-800/90 dark:via-gray-800 dark:to-gray-900/90
+           p-5 rounded-xl border-2 border-primary-300/40 dark:border-primary-700/40
+           shadow-[0_8px_24px_-8px_rgba(59,130,246,0.25),0_2px_8px_-2px_rgba(59,130,246,0.1)]
+           hover:shadow-[0_16px_40px_-8px_rgba(59,130,246,0.4),0_4px_16px_-4px_rgba(59,130,246,0.2)]
+           transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02]
+           hover:border-primary-500/60 dark:hover:border-primary-500/60
+           relative overflow-hidden
+           before:absolute before:inset-0 before:bg-gradient-to-br before:from-primary-400/5 before:to-transparent before:opacity-0 hover:before:opacity-100 before:transition-opacity before:duration-300 before:pointer-events-none;
+  }
+
+  .info-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4;
+  }
+
+  .accent-border-card {
+    @apply bg-gradient-to-r from-primary-50 to-transparent dark:from-gray-800 dark:to-gray-800/50 p-5 rounded-lg
+           border-l-4 border-primary-500 dark:border-primary-400
+           shadow-[0_2px_8px_-2px_rgba(59,130,246,0.15)] hover:shadow-[0_6px_16px_-4px_rgba(59,130,246,0.3)]
+           transition-all duration-300 hover:-translate-x-1
+           hover:border-primary-600 dark:hover:border-primary-400
+           hover:bg-gradient-to-r hover:from-primary-100 hover:to-blue-50 dark:hover:from-gray-700 dark:hover:to-gray-800;
+  }
 }
 
-/* Citation chips: tiny superscript number; hover/tap pops a code card. */
-sup.cite {
-  font-size: 0.7em;
-  line-height: 0;
-  cursor: help;
-  color: var(--sl-color-text-accent);
-  padding: 0 0.15em;
-  font-weight: 600;
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary-600 to-primary-800 bg-clip-text text-transparent;
+  }
+  
+  .bg-glass {
+    @apply bg-white/80 dark:bg-gray-800/80 backdrop-blur-md;
+  }
 }
 
-/* Hidden per-source code blocks; the script clones these into the card. */
-.cite-sources {
-  display: none;
-}
+@media (max-width: 768px) {
+  .sidebar {
+    @apply -translate-x-full;
+  }
 
-/* The floating code preview card shown on hover/tap. */
-.cite-pop {
-  position: absolute;
-  z-index: 100;
-  max-width: min(92vw, 64rem);
-  max-height: 60vh;
-  overflow: auto;
-  padding: 0.6rem 0.8rem;
-  border: 1px solid var(--sl-color-gray-5);
-  border-radius: 0.5rem;
-  background: var(--sl-color-bg-nav, var(--sl-color-bg));
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
-  font-size: 0.85em;
-}
-.cite-pop[hidden] {
-  display: none;
-}
-.cite-pop .cite-src-hd {
-  font-size: 0.85em;
-  color: var(--sl-color-text-accent);
-  margin-bottom: 0.4rem;
-  font-family: var(--sl-font-mono, monospace);
-}
-.cite-pop pre {
-  margin: 0;
-  white-space: pre;
-}
+  .sidebar.is-open {
+    @apply translate-x-0;
+  }
 
-/* D2 diagrams, pre-rendered to SVG at build time and embedded as an isolated
-   <img> (so d2's standalone SVG styles/scripts never leak into the page). */
-figure.diagram {
-  margin: 1.5rem 0;
-  text-align: center;
-}
-figure.diagram img {
-  max-width: 100%;
-  /* cap oversized diagrams (esp. tall vertical flows) so they fit the viewport
-     instead of forcing long scrolls; aspect ratio is preserved. */
-  max-height: 70vh;
-  height: auto;
+  .main-content {
+    @apply ml-0 p-3;
+  }
+
+  .content-wrapper {
+    @apply px-2;
+  }
 }

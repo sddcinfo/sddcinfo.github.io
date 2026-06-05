@@ -1,8 +1,7 @@
 # sddcinfo.github.io
 
 The sddc.info landing page: an index of the public project wikis, served at
-[sddcinfo.github.io](https://sddcinfo.github.io/). Built with Astro, Starlight,
-and Tailwind v4 (the same stack each project wiki uses) and deployed to GitHub
+[sddcinfo.github.io](https://sddcinfo.github.io/). Built with Astro and Tailwind v4 (the same stack as the sddc.info website) and deployed to GitHub
 Pages by `.github/workflows/deploy.yml`.
 
 ## Develop

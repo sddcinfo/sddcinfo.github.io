@@ -1,8 +1,0 @@
-{
-  "site": "https://sddcinfo.github.io",
-  "base": "/",
-  "title": "sddc.info",
-  "description": "Open-source software for the NVIDIA GB10 appliance, infrastructure provisioning, and autonomous tooling.",
-  "sidebar": null,
-  "social": [{ "icon": "github", "label": "GitHub", "href": "https://github.com/sddcinfo" }]
-}

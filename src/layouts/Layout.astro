@@ -1,0 +1,61 @@
+---
+import '../styles/global.css';
+import { Font } from 'astro:assets';
+
+export interface Props {
+  title: string;
+  description: string;
+}
+const { title, description } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="author" content="sddc.info" />
+    <meta name="theme-color" content="#3b82f6" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="canonical" href="https://sddcinfo.github.io/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content="sddc.info" />
+    <title>{title}</title>
+    <Font cssVariable="--font-inter" />
+  </head>
+  <body>
+    <script is:inline>
+      (function () {
+        var t = localStorage.getItem('theme');
+        if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.body.classList.add('dark-mode');
+        }
+      })();
+    </script>
+
+    <button
+      id="theme-toggle"
+      class="fixed top-4 right-4 z-50 rounded-lg border border-gray-200/70 bg-white/80 px-3 py-2 text-sm font-medium text-gray-700 shadow-sm backdrop-blur transition-colors hover:border-primary-300 hover:text-primary-700 dark:border-gray-700/70 dark:bg-gray-800/80 dark:text-gray-200"
+      aria-label="Toggle dark mode"
+      title="Toggle dark mode"
+    >Theme</button>
+
+    <main class="relative z-[1] mx-auto max-w-6xl px-6 py-16 md:py-24">
+      <slot />
+    </main>
+
+    <script>
+      const el = document.getElementById('theme-toggle');
+      if (el) {
+        el.addEventListener('click', () => {
+          document.body.classList.toggle('dark-mode');
+          localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        });
+      }
+    </script>
+  </body>
+</html>
