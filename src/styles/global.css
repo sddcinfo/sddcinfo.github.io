@@ -1,0 +1,92 @@
+/* Tailwind v4, matching the fleet convention (see meeting-scribe). Wired via
+   PostCSS (postcss.config.mjs). The @astrojs/starlight-tailwind theme-harmonizer
+   @plugin is intentionally NOT imported: its CSS import fails to resolve under
+   Astro 6's rolldown-based vite. Starlight ships its own complete theme, so
+   plain Tailwind v4 utilities are layered on top for any custom markup. */
+@import "tailwindcss";
+
+/* Layout: use the full width, focus on the content. Starlight defaults to a
+   45rem content column pushed to the right of the main pane (a big empty gap
+   beside the nav) with a right-hand "On this page" rail as wide as the left nav.
+   We (1) let content fill the pane (large content cap), (2) zero the auto left
+   margin that created the gap, and (3) trim the TOC rail. customCss is unlayered,
+   so it wins over Starlight's @layer rules without !important. */
+:root {
+  --sl-content-width: 95rem;
+}
+
+@media (min-width: 72rem) {
+  .right-sidebar-container {
+    width: 16rem;
+  }
+  [data-has-sidebar][data-has-toc] .main-pane {
+    width: calc(100% - 16rem);
+    /* kill the auto left margin that shoved content far right of the nav */
+    --sl-content-margin-inline: 0;
+  }
+}
+
+/* "On this page" (right TOC): let long heading titles wrap instead of being
+   clipped by the trimmed rail. */
+.right-sidebar a {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.35;
+}
+
+/* Citation chips: tiny superscript number; hover/tap pops a code card. */
+sup.cite {
+  font-size: 0.7em;
+  line-height: 0;
+  cursor: help;
+  color: var(--sl-color-text-accent);
+  padding: 0 0.15em;
+  font-weight: 600;
+}
+
+/* Hidden per-source code blocks; the script clones these into the card. */
+.cite-sources {
+  display: none;
+}
+
+/* The floating code preview card shown on hover/tap. */
+.cite-pop {
+  position: absolute;
+  z-index: 100;
+  max-width: min(92vw, 64rem);
+  max-height: 60vh;
+  overflow: auto;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--sl-color-gray-5);
+  border-radius: 0.5rem;
+  background: var(--sl-color-bg-nav, var(--sl-color-bg));
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+  font-size: 0.85em;
+}
+.cite-pop[hidden] {
+  display: none;
+}
+.cite-pop .cite-src-hd {
+  font-size: 0.85em;
+  color: var(--sl-color-text-accent);
+  margin-bottom: 0.4rem;
+  font-family: var(--sl-font-mono, monospace);
+}
+.cite-pop pre {
+  margin: 0;
+  white-space: pre;
+}
+
+/* D2 diagrams, pre-rendered to SVG at build time and embedded as an isolated
+   <img> (so d2's standalone SVG styles/scripts never leak into the page). */
+figure.diagram {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+figure.diagram img {
+  max-width: 100%;
+  /* cap oversized diagrams (esp. tall vertical flows) so they fit the viewport
+     instead of forcing long scrolls; aspect ratio is preserved. */
+  max-height: 70vh;
+  height: auto;
+}

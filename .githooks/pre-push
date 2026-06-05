@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Same publish bar as the product repos: no operator identity, no broken doc
+# links (via `sddc repo preflight`), and no banned prose (check_prose_hygiene).
+# This is a public repo that only indexes other public repos, but it is held to
+# the identical standard so nothing leaks and links stay alive.
+set -uo pipefail
+root="$(git rev-parse --show-toplevel)"
+fail=0
+if command -v sddc >/dev/null 2>&1; then
+  sddc repo preflight "$root" || fail=1
+else
+  echo "pre-push: sddc not on PATH, skipping preflight (identity + link check)"
+fi
+python3 "$root/tools/check_prose_hygiene.py" "$root" || fail=1
+if [ "$fail" -ne 0 ]; then
+  echo "pre-push: publish gate failed, not pushing." >&2
+  exit 1
+fi

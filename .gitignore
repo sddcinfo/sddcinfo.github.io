@@ -1,0 +1,6 @@
+# Astro build + local toolchain state. The committed scaffold is package.json +
+# the static config; node_modules and dist are reproduced by `npm ci && npm run
+# build` (locally via `sddc repo wiki serve`, in CI via wiki-pages.yml).
+node_modules/
+dist/
+.astro/
