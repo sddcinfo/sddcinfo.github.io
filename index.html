@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>sddc.info — open source</title>
+<meta name="description" content="Open-source projects from sddc.info: GB10 appliance software, infrastructure provisioning, and autonomous tooling." />
+<style>
+  :root {
+    --bg: #0d1117; --panel: #161b22; --border: #30363d;
+    --fg: #e6edf3; --muted: #9da7b3; --accent: #58a6ff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 64px 24px 96px; }
+  header { margin-bottom: 40px; }
+  h1 { font-size: 2rem; margin: 0 0 8px; letter-spacing: -0.02em; }
+  .lede { color: var(--muted); margin: 0; max-width: 60ch; }
+  .grid { display: grid; gap: 16px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .grid { grid-template-columns: 1fr 1fr; } }
+  .card {
+    background: var(--panel); border: 1px solid var(--border);
+    border-radius: 10px; padding: 18px 20px; display: flex; flex-direction: column;
+  }
+  .card h2 { font-size: 1.1rem; margin: 0 0 4px; }
+  .card h2 a { color: var(--fg); text-decoration: none; }
+  .card h2 a:hover { color: var(--accent); }
+  .card p { color: var(--muted); margin: 0 0 14px; font-size: 0.95rem; flex: 1; }
+  .links { display: flex; gap: 16px; font-size: 0.9rem; }
+  .links a { color: var(--accent); text-decoration: none; }
+  .links a:hover { text-decoration: underline; }
+  footer { margin-top: 48px; color: var(--muted); font-size: 0.9rem; }
+  footer a { color: var(--accent); text-decoration: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>sddc.info</h1>
+    <p class="lede">Open-source software for the NVIDIA GB10 appliance, bare-metal infrastructure provisioning, and autonomous tooling. Each project ships a line-cited wiki built from its source.</p>
+  </header>
+
+  <main class="grid">
+    <div class="card">
+      <h2><a href="https://sddcinfo.github.io/meetingscribe/">meetingscribe</a></h2>
+      <p>Real-time multilingual meeting transcription, translation, and synthesized interpretation on a single GB10.</p>
+      <div class="links"><a href="https://sddcinfo.github.io/meetingscribe/">Wiki</a><a href="https://github.com/sddcinfo/meetingscribe">GitHub</a></div>
+    </div>
+    <div class="card">
+      <h2><a href="https://sddcinfo.github.io/autosre/">autosre</a></h2>
+      <p>vLLM lifecycle and SRE automation for the GB10 inference stack.</p>
+      <div class="links"><a href="https://sddcinfo.github.io/autosre/">Wiki</a><a href="https://github.com/sddcinfo/autosre">GitHub</a></div>
+    </div>
+    <div class="card">
+      <h2><a href="https://sddcinfo.github.io/autoswe/">autoswe</a></h2>
+      <p>An autonomous Python-to-Go rewrite loop: a local Qwen writer, a Codex judge, gated by a fixed parity matrix.</p>
+      <div class="links"><a href="https://sddcinfo.github.io/autoswe/">Wiki</a><a href="https://github.com/sddcinfo/autoswe">GitHub</a></div>
+    </div>
+    <div class="card">
+      <h2><a href="https://sddcinfo.github.io/sddc-cli/">sddc-cli</a></h2>
+      <p>Unified infrastructure management CLI: BMC/Redfish, Incus, Linstor, Talos, k3s, GB10, and repo tooling.</p>
+      <div class="links"><a href="https://sddcinfo.github.io/sddc-cli/">Wiki</a><a href="https://github.com/sddcinfo/sddc-cli">GitHub</a></div>
+    </div>
+    <div class="card">
+      <h2><a href="https://sddcinfo.github.io/provisioning/">provisioning</a></h2>
+      <p>Bare-metal and GB10 provisioning: Ansible, iPXE, and cloud-init.</p>
+      <div class="links"><a href="https://sddcinfo.github.io/provisioning/">Wiki</a><a href="https://github.com/sddcinfo/provisioning">GitHub</a></div>
+    </div>
+    <div class="card">
+      <h2><a href="https://sddcinfo.github.io/dapcli/">dapcli</a></h2>
+      <p>Command-line client for the Dell Automation Platform.</p>
+      <div class="links"><a href="https://sddcinfo.github.io/dapcli/">Wiki</a><a href="https://github.com/sddcinfo/dapcli">GitHub</a></div>
+    </div>
+    <div class="card">
+      <h2><a href="https://sddcinfo.github.io/pptcraft/">pptcraft</a></h2>
+      <p>Slide generation and translation toolkit.</p>
+      <div class="links"><a href="https://sddcinfo.github.io/pptcraft/">Wiki</a><a href="https://github.com/sddcinfo/pptcraft">GitHub</a></div>
+    </div>
+    <div class="card">
+      <h2><a href="https://sddcinfo.github.io/website/">website</a></h2>
+      <p>The sddc.info public website.</p>
+      <div class="links"><a href="https://sddcinfo.github.io/website/">Wiki</a><a href="https://github.com/sddcinfo/website">GitHub</a></div>
+    </div>
+  </main>
+
+  <footer>
+    All projects: <a href="https://github.com/sddcinfo">github.com/sddcinfo</a>
+  </footer>
+</div>
+</body>
+</html>
